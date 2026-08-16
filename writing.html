@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing — Neil Todkar</title>
+<meta name="description" content="Papers, whitepapers, and talks by Neil Todkar: The Transparency Trap (arXiv), Beyond Compliance (Nexla), Kai and the AI, and appearances at UC Berkeley.">
+<meta name="theme-color" content="#f6f5f2">
+<link rel="icon" href="assets/avatar.jpg" type="image/jpeg">
+<script>(function(){try{var q=/[?&]theme=(dark|light)/.exec(location.search);var t=q?q[1]:localStorage.getItem('nt-theme');if(!t)t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+  <header class="page-head">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap" style="max-width:920px">
+      <span class="mono eyebrow">Writing</span>
+      <h1 class="display">Papers, essays,<br>and <em>talks</em></h1>
+      <p>Research on trust, transparency, and how people actually behave around AI, plus a children's book and notes from the stages I have been lucky to stand on.</p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap" style="max-width:920px">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Publications</span>
+          <h2 class="display">Published</h2>
+        </div>
+      </div>
+      <div class="pub-list" id="pubs"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="max-width:920px">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Talks &amp; appearances</span>
+          <h2 class="display">On stage and in the room</h2>
+        </div>
+      </div>
+      <div class="timeline" id="talks"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="max-width:920px">
+      <div class="card" data-reveal style="padding:24px 26px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+        <div>
+          <div style="font-weight:600;font-size:16px;margin-bottom:3px">More writing lands on LinkedIn first</div>
+          <div class="small muted">Event write-ups, research notes, and what I am learning while building.</div>
+        </div>
+        <a class="btn btn-ghost btn-sm ext" id="li-activity" href="#" target="_blank" rel="noopener">Recent posts</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+window.renderPage = function (D) {
+  var esc = NT.esc;
+  document.getElementById('li-activity').href = D.profile.linkedinActivity;
+  document.getElementById('pubs').innerHTML = D.writing.map(function (w) {
+    var tag = w.href ? 'a' : 'div';
+    var attrs = w.href ? ' href="' + esc(w.href) + '" target="_blank" rel="noopener"' : '';
+    return '<' + tag + ' class="card pub' + (w.href ? '' : '') + '" data-reveal' + attrs + '>' +
+      '<div class="top"><span class="chip">' + esc(w.kind) + '</span><span class="small muted">' + esc(w.venue) + ' &middot; ' + esc(w.date) + '</span></div>' +
+      '<h3>' + esc(w.title) + '</h3><p>' + esc(w.excerpt) + '</p>' +
+      (w.href ? '<span class="cta ext">' + esc(w.cta) + '</span>' : '<span class="cta muted" style="color:var(--fg-3)">Available on request</span>') +
+    '</' + tag + '>';
+  }).join('');
+  document.getElementById('talks').innerHTML = D.talks.map(function (t) {
+    return '<div class="tl-item" data-reveal><div class="when">' + esc(t.date) + '</div><div>' +
+      '<h3>' + esc(t.title) + '</h3><div class="org">' + esc(t.role) + ' &middot; ' + esc(t.where) + '</div><p>' + esc(t.note) + '</p></div></div>';
+  }).join('');
+};
+</script>
+<script src="site.js"></script>
+</body>
+</html>

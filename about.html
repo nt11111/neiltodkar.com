@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Neil Todkar</title>
+<meta name="description" content="About Neil Todkar: researcher, founder, and student at Amador Valley High School in Pleasanton, CA. Experience, recognition, education, and skills.">
+<meta name="theme-color" content="#f6f5f2">
+<link rel="icon" href="assets/avatar.jpg" type="image/jpeg">
+<script>(function(){try{var q=/[?&]theme=(dark|light)/.exec(location.search);var t=q?q[1]:localStorage.getItem('nt-theme');if(!t)t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+  <header class="page-head" style="padding-bottom:0">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap two-col">
+      <div>
+        <span class="mono eyebrow">About</span>
+        <h1 class="display" style="font-size:clamp(36px,5.6vw,66px)">Researcher, founder,<br>and <em>evidence-first</em> builder.</h1>
+        <div id="about-copy" style="margin-top:26px;display:grid;gap:14px;max-width:60ch"></div>
+      </div>
+      <figure class="portrait" data-reveal style="margin:0">
+        <img src="assets/profile.jpg" alt="Neil Todkar" width="1200" height="1500" fetchpriority="high">
+        <figcaption class="cap" id="portrait-cap"></figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <!-- Snapshot -->
+  <section class="section">
+    <div class="wrap">
+      <div class="info-grid" data-reveal>
+        <div class="card info">
+          <div class="mono">Education</div>
+          <div class="big" id="edu-school"></div>
+          <div class="small muted" id="edu-meta"></div>
+          <div class="small" id="edu-detail" style="margin-top:8px"></div>
+        </div>
+        <div class="card info">
+          <div class="mono">Coursework</div>
+          <div class="pill-list" id="edu-courses"></div>
+        </div>
+        <div class="card info">
+          <div class="mono">Languages</div>
+          <div class="pill-list" id="languages"></div>
+        </div>
+        <div class="card info">
+          <div class="mono">Certifications</div>
+          <div id="certs" style="display:grid;gap:6px;font-size:14px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience timeline -->
+  <section class="section" id="experience">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Experience</span>
+          <h2 class="display">Where I've worked</h2>
+        </div>
+        <a class="text-link arrow" href="projects.html">Project detail</a>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- Recognition -->
+  <section class="section" id="recognition">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Recognition</span>
+          <h2 class="display">Awards &amp; honors</h2>
+        </div>
+      </div>
+      <div id="awards"></div>
+    </div>
+  </section>
+
+  <!-- Skills + Leadership -->
+  <section class="section">
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(28px,5vw,64px)">
+      <div data-reveal>
+        <span class="mono eyebrow">Skills</span>
+        <h2 class="display" style="font-size:clamp(28px,3.6vw,40px);margin-bottom:22px">What I bring</h2>
+        <div class="pill-list" id="skills"></div>
+      </div>
+      <div data-reveal>
+        <span class="mono eyebrow">Leadership &amp; activities</span>
+        <h2 class="display" style="font-size:clamp(28px,3.6vw,40px);margin-bottom:22px">Outside the lab</h2>
+        <div id="leadership" style="display:grid;gap:12px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cta-band" data-reveal>
+        <span class="mono eyebrow">Get in touch</span>
+        <h2>Working on something at the intersection of AI, ethics, and business?</h2>
+        <p id="cta-copy"></p>
+        <div class="link-row">
+          <a class="btn btn-primary" data-magnetic href="contact.html">Contact me <span aria-hidden="true">&#8594;</span></a>
+          <a class="btn btn-ghost" id="cta-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+window.renderPage = function (D) {
+  var P = D.profile, esc = NT.esc;
+  document.getElementById('about-copy').innerHTML = P.about.map(function (p, i) {
+    return '<p class="' + (i === 0 ? '' : 'muted') + '" style="font-size:' + (i === 0 ? '17px' : '15.5px') + ';line-height:1.7">' + esc(p) + '</p>';
+  }).join('');
+  document.getElementById('portrait-cap').textContent = P.location;
+  document.getElementById('cta-copy').textContent = P.availability;
+  document.getElementById('cta-linkedin').href = P.linkedin;
+
+  var E = D.education;
+  document.getElementById('edu-school').textContent = E.school;
+  document.getElementById('edu-meta').textContent = E.place + ' · ' + E.span;
+  document.getElementById('edu-detail').textContent = E.detail;
+  document.getElementById('edu-courses').innerHTML = E.coursework.map(function (c) { return '<span class="pill">' + esc(c) + '</span>'; }).join('');
+  document.getElementById('languages').innerHTML = D.languages.map(function (c) { return '<span class="pill">' + esc(c) + '</span>'; }).join('');
+  document.getElementById('certs').innerHTML = D.certifications.map(function (c) { return '<div>' + esc(c.title) + ' <span class="muted">&middot; ' + esc(c.org) + '</span></div>'; }).join('');
+
+  document.getElementById('timeline').innerHTML = D.projects.filter(function (p) { return p.kind !== 'creative'; }).map(function (p) {
+    return '<div class="tl-item" data-reveal><div class="when">' + esc(p.period) + '</div><div>' +
+      '<h3>' + esc(p.role) + '</h3><div class="org">' + esc(p.org.indexOf(p.title) === 0 ? p.org : (p.title + ' · ' + p.org)) + '</div>' +
+      '<p>' + esc(p.summary) + '</p></div></div>';
+  }).join('');
+
+  document.getElementById('awards').innerHTML = D.awards.map(function (a) {
+    return '<div class="award" data-reveal><div class="year">' + esc(a.year) + '</div><div><h3>' + esc(a.title) + '</h3><p>' + esc(a.detail) + '</p></div></div>';
+  }).join('');
+
+  document.getElementById('skills').innerHTML = D.skills.map(function (s) { return '<span class="pill" style="font-size:14px;padding:9px 14px">' + esc(s) + '</span>'; }).join('');
+  document.getElementById('leadership').innerHTML = D.leadership.map(function (l) {
+    return '<div class="card" style="padding:16px 18px"><div style="font-weight:600">' + esc(l.title) + '</div><div class="small muted">' + esc(l.org) + '</div></div>';
+  }).join('');
+};
+</script>
+<script src="site.js"></script>
+</body>
+</html>

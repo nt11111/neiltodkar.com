@@ -1,23 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Neil Todkar</title>
-  <meta http-equiv="refresh" content="0; url=Home.dc.html">
-  <link rel="canonical" href="Home.dc.html">
-  <style>
-    html,body{margin:0;height:100%;background:#08080a;color:#f4f4f5;font-family:system-ui,sans-serif;}
-    .w{height:100%;display:grid;place-items:center;}
-    a{color:#ff5a5a;}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neil Todkar — AI research, Planos, FluidCloud</title>
+<meta name="description" content="Neil Todkar studies how people actually respond to AI systems and builds products around it. Founder & CEO of Planos, GTM at FluidCloud, AI researcher at Nexla, published on arXiv.">
+<meta name="theme-color" content="#f6f5f2">
+<meta property="og:title" content="Neil Todkar">
+<meta property="og:description" content="AI research, Planos, FluidCloud. Pleasanton, CA.">
+<meta property="og:image" content="assets/avatar.jpg">
+<link rel="icon" href="assets/avatar.jpg" type="image/jpeg">
+<script>(function(){try{var q=/[?&]theme=(dark|light)/.exec(location.search);var t=q?q[1]:localStorage.getItem('nt-theme');if(!t)t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="w">
-    <p>Redirecting to <a href="Home.dc.html">Neil&nbsp;Todkar</a>&hellip;</p>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-fade" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div class="hero-kicker">
+        <span class="pulse" aria-hidden="true"></span>
+        <span class="kicker-text" id="hero-status"></span>
+      </div>
+      <h1 class="display" id="hero-title"></h1>
+      <p class="lede" id="hero-lede"></p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" data-magnetic href="projects.html">See the work <span aria-hidden="true">&#8594;</span></a>
+        <a class="btn btn-ghost" data-magnetic href="#" id="hero-arxiv" target="_blank" rel="noopener">Read the paper on arXiv</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span class="mono">Scroll</span><span>&#8595;</span></div>
+  </section>
+
+  <!-- NOW -->
+  <div class="now-strip">
+    <div class="now-inner">
+      <span class="mono">Now</span>
+      <ul class="now-list" id="now-list"></ul>
+    </div>
   </div>
-  <script>window.location.replace('Home.dc.html');</script>
+
+  <!-- FEATURED WORK -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Selected work</span>
+          <h2 class="display">What I'm building</h2>
+        </div>
+        <a class="text-link arrow" href="projects.html">All work</a>
+      </div>
+      <div class="work-list" id="featured"></div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Writing</span>
+          <h2 class="display">Published research</h2>
+        </div>
+        <a class="text-link arrow" href="writing.html">All writing</a>
+      </div>
+      <div class="pub-list" id="pubs"></div>
+    </div>
+  </section>
+
+  <!-- RECOGNITION -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Recognition</span>
+          <h2 class="display">Recent</h2>
+        </div>
+        <a class="text-link arrow" href="about.html#recognition">Full list</a>
+      </div>
+      <div id="awards"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="wrap">
+      <div class="cta-band" data-reveal>
+        <span class="mono eyebrow">Let's talk</span>
+        <h2>Have a research question, a venture, or a stage that needs a speaker?</h2>
+        <p id="cta-copy"></p>
+        <div class="link-row">
+          <a class="btn btn-primary" data-magnetic href="contact.html">Contact me <span aria-hidden="true">&#8594;</span></a>
+          <a class="btn btn-ghost" id="cta-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+window.renderPage = function (D) {
+  var P = D.profile, esc = NT.esc, el = NT.el;
+
+  // hero
+  document.getElementById('hero-status').textContent = P.headline;
+  var h1 = document.getElementById('hero-title');
+  var lines = [P.hero.line1, P.hero.line2, P.hero.line3];
+  h1.innerHTML = lines.map(function (l, i) {
+    // italicise the accent phrase in line 2
+    var txt = esc(l);
+    if (i === 1) txt = txt.replace(/actually respond to AI/, '<em>actually respond to AI</em>');
+    return '<span class="line"><span style="animation-delay:' + (0.05 + i * 0.12) + 's">' + txt + '</span></span>';
+  }).join('');
+  document.getElementById('hero-lede').textContent = P.intro;
+  document.getElementById('hero-arxiv').href = P.arxiv;
+  document.getElementById('cta-copy').textContent = P.availability;
+  document.getElementById('cta-linkedin').href = P.linkedin;
+
+  // now strip
+  document.getElementById('now-list').innerHTML = P.now.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('');
+
+  // featured work
+  var feat = D.projects.filter(function (p) { return p.featured; });
+  document.getElementById('featured').innerHTML = feat.map(function (p, i) {
+    var href = (p.links[0] && p.links[0].href) || 'projects.html#' + p.id;
+    var ext = /^https?:/.test(href);
+    return '<a class="card work-card" data-reveal href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
+      '<div class="num">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div>' +
+        '<div class="meta"><span class="chip">' + esc(p.tag) + '</span><span class="sub">' + esc(p.role) + ' &middot; ' + esc(p.period) + '</span></div>' +
+        '<h3>' + esc(p.title) + (p.subtitle ? '<span class="muted" style="font-size:.55em;display:block;margin-top:6px;font-family:var(--font-body);letter-spacing:0">' + esc(p.subtitle) + '</span>' : '') + '</h3>' +
+        '<p class="summary">' + esc(p.summary) + '</p>' +
+        '<div class="pill-list">' + p.tags.map(function (t) { return '<span class="pill">' + esc(t) + '</span>'; }).join('') + '</div>' +
+      '</div>' +
+      '<span class="corner" aria-hidden="true">' + (ext ? '&#8599;' : '&#8594;') + '</span>' +
+    '</a>';
+  }).join('');
+
+  // publications (top 2)
+  document.getElementById('pubs').innerHTML = D.writing.filter(function (w) { return w.href; }).slice(0, 2).map(function (w) {
+    return '<a class="card pub" data-reveal href="' + esc(w.href) + '" target="_blank" rel="noopener">' +
+      '<div class="top"><span class="chip">' + esc(w.kind) + '</span><span class="small muted">' + esc(w.venue) + ' &middot; ' + esc(w.date) + '</span></div>' +
+      '<h3>' + esc(w.title) + '</h3><p>' + esc(w.excerpt) + '</p>' +
+      '<span class="cta ext">' + esc(w.cta) + '</span></a>';
+  }).join('');
+
+  // awards (top 4)
+  document.getElementById('awards').innerHTML = D.awards.slice(0, 4).map(function (a) {
+    return '<div class="award" data-reveal><div class="year">' + esc(a.year) + '</div><div><h3>' + esc(a.title) + '</h3><p>' + esc(a.detail) + '</p></div></div>';
+  }).join('');
+};
+</script>
+<script src="site.js"></script>
 </body>
 </html>

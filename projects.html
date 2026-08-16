@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work — Neil Todkar</title>
+<meta name="description" content="Ventures, research, and work by Neil Todkar: Planos, The Transparency Trap (arXiv), FluidCloud, Nexla, AI Readiness 4 Kids, Kai and the AI.">
+<meta name="theme-color" content="#f6f5f2">
+<link rel="icon" href="assets/avatar.jpg" type="image/jpeg">
+<script>(function(){try{var q=/[?&]theme=(dark|light)/.exec(location.search);var t=q?q[1]:localStorage.getItem('nt-theme');if(!t)t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+  <header class="page-head">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="mono eyebrow">Work</span>
+      <h1 class="display">Ventures, research,<br>and <em>everything in between</em></h1>
+      <p>Everything I am building and studying: a startup turning blueprints into 3D models, published behavioral research on trust in AI, go-to-market at a cloud infrastructure company, and an initiative teaching students to question the technology they use.</p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Now</span>
+          <h2 class="display">Building</h2>
+        </div>
+      </div>
+      <div class="work-list" id="ventures"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Research</span>
+          <h2 class="display">Studying</h2>
+        </div>
+        <a class="text-link arrow" href="writing.html">Publications</a>
+      </div>
+      <div class="work-list" id="research"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="mono eyebrow">Also</span>
+          <h2 class="display">Initiatives &amp; earlier work</h2>
+        </div>
+      </div>
+      <div class="work-list" id="other"></div>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+window.renderPage = function (D) {
+  var esc = NT.esc;
+  function card(p, i) {
+    var links = p.links.map(function (l) {
+      return '<a class="btn btn-primary btn-sm" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(l.label) + ' <span aria-hidden="true">&#8599;</span></a>';
+    }).join('');
+    var bullets = p.bullets && p.bullets.length ? '<ul class="bullets">' + p.bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>' : '';
+    return '<article class="card work-card hoverable" id="' + esc(p.id) + '" data-reveal>' +
+      '<div class="num">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div>' +
+        '<div class="meta"><span class="chip">' + esc(p.tag) + '</span><span class="sub">' + esc(p.role) + ' &middot; ' + esc(p.org) + ' &middot; ' + esc(p.period) + '</span></div>' +
+        '<h3>' + esc(p.title) + (p.subtitle ? '<span class="muted" style="font-size:.55em;display:block;margin-top:6px;font-family:var(--font-body);letter-spacing:0">' + esc(p.subtitle) + '</span>' : '') + '</h3>' +
+        '<p class="summary">' + esc(p.summary) + '</p>' + bullets +
+        '<div class="pill-list" style="margin-bottom:' + (links ? '20px' : '0') + '">' + p.tags.map(function (t) { return '<span class="pill">' + esc(t) + '</span>'; }).join('') + '</div>' +
+        (links ? '<div class="link-row">' + links + '</div>' : '') +
+      '</div>' +
+    '</article>';
+  }
+  var ventures = D.projects.filter(function (p) { return p.kind === 'venture' || p.kind === 'work' && p.featured; });
+  var research = D.projects.filter(function (p) { return p.kind === 'research' || (p.kind === 'work' && !p.featured && p.id === 'nexla'); });
+  var used = {}; ventures.concat(research).forEach(function (p) { used[p.id] = 1; });
+  var other = D.projects.filter(function (p) { return !used[p.id]; });
+  document.getElementById('ventures').innerHTML = ventures.map(card).join('');
+  document.getElementById('research').innerHTML = research.map(card).join('');
+  document.getElementById('other').innerHTML = other.map(card).join('');
+  if (location.hash) { var t = document.querySelector(location.hash); if (t) setTimeout(function () { t.scrollIntoView({ block: 'start' }); }, 50); }
+};
+</script>
+<script src="site.js"></script>
+</body>
+</html>
