@@ -202,7 +202,7 @@ export const recognition = [
   {
     year: '2026',
     title: 'Visharad in Tabla',
-    detail: 'Certificate of honor in Indian classical percussion after 7 years of training.',
+    detail: 'Certificate of honor in Indian classical percussion after 9 years of training.',
   },
   {
     year: '2025',
