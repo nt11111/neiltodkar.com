@@ -1,38 +1,41 @@
 # Neil Todkar — personal site
 
-Static, dependency-free personal site. Five pages: Home, Work, Writing, About, Contact. Dark and light mode with a toggle in the nav (remembers your choice; defaults to your system setting).
+One-page portfolio at **neiltodkar.com**. React + TypeScript + Tailwind + Framer Motion, built with Vite. Dark theme, Kanit font.
+
+Sections, top to bottom: Hero (memoji) → scrolling work strip → About → What I do → Projects (stacking cards) → Research + Experience → Recognition → Contact.
 
 ## Editing content
 
-**Everything lives in `data.js`.** Every page renders from it.
+**Everything lives in `app/src/data.ts`.** Components only handle layout and motion.
 
-- **Add a project / role** → copy a block inside `projects: [ ... ]`. `kind` is `venture`, `work`, `research`, `initiative`, or `creative`. Set `featured: true` to show it on the homepage (first three featured items appear there).
-- **Add a paper or essay** → copy a block inside `writing: [ ... ]` (newest first). Leave `href` empty for unpublished work.
-- **Add a talk / event** → `talks: [ ... ]`.
-- **Add an award** → `awards: [ ... ]`. The homepage shows the first four.
-- **Bio, hero copy, contact info, "Now" line** → the `profile` object at the top.
-- **Education, skills, languages, certifications, leadership** → their own arrays near the bottom.
+- **Rename the CAD startup** → change `VENTURE_NAME` at the top of `data.ts`. It is used everywhere the name appears.
+- **Add a project card** → copy a block in `projects`. Each card needs exactly three images (two stacked on the left, one tall on the right). Leave out `link` and set `pending` to show a dashed pill instead of a "Live Project" button.
+- **Scrolling strip** → `marquee.rowOne` / `marquee.rowTwo`.
+- **Research, experience, awards** → `research`, `experience`, `recognition`, `credentials`.
 
-## Files
+## Images
 
-- `index.html`, `projects.html`, `writing.html`, `about.html`, `contact.html` — the pages. Each has a small `renderPage()` that fills the page from `data.js`.
-- `data.js` — all content.
-- `styles.css` — design system. Colors are CSS variables at the top; `[data-theme="dark"]` overrides them.
-- `site.js` — nav + footer, theme toggle, scroll reveals, magnetic buttons, hero canvas.
-- `assets/profile.jpg` — About page portrait (4:5). `assets/avatar.jpg` — square version used for the favicon / social preview. `assets/planos-logo.png`.
+All under `app/public/media/`:
 
-## Local preview
+- `memoji.webp` — hero portrait (transparent). `favicon.png`, `og.jpg` (link preview, 1200×630).
+- `about/` — the four 3D objects in the About section's corners.
+- `work/` — screenshots and CAD renders, 1120×720 WebP. Used by both the strip and the project cards.
+
+## Develop
 
 ```bash
-python3 -m http.server 4180
+npm install
+npm run dev
 ```
 
-Then open http://localhost:4180.
+Opens on http://localhost:4180.
 
-## Hosting on GitHub Pages
+## Build and deploy
 
-1. Push this folder to a GitHub repo.
-2. Repo **Settings → Pages → Build from branch → main → /(root)**.
-3. Point your domain at it under **Custom domain** (add a `CNAME` DNS record at your registrar).
+GitHub Pages serves the `main` branch from the repo root, so the build is written to the root (`index.html`, `static/`, `media/`, `CNAME`, and the redirect stubs for the old `about/projects/writing/contact.html` URLs). Source lives in `app/`.
 
-Keep all files together; pages reference each other and the shared scripts with relative paths.
+```bash
+npm run build
+```
+
+`scripts/clean.mjs` deletes the previous build output first (only paths the build writes). Commit the source **and** the build output, then push `main` to deploy. Vite prints two warnings about `outDir` containing the source folder; they are expected with this layout.
